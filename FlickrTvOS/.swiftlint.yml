@@ -1,0 +1,13 @@
+//
+//  .swiftlint.yml
+//  FlickrTvOS
+//
+//  Created by Ruben Torres on 17/04/23.
+//
+
+import Foundation
+
+opt_in_rules:
+    - indentation_width
+    - explicit_self
+    - operator_usage_whitespace
