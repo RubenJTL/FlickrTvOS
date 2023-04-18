@@ -27,12 +27,12 @@ struct FlickrPhoto: Identifiable, Codable {
     let id: String
     let ownerName: String
     let title: String
-    let height: CGFloat?
-    let width: CGFloat?
+    var height: CGFloat?
+    var width: CGFloat?
     let imageURL: URL?
-    let publishedDate: String?
+    var publishedDate: Date?
 
-    init(id: String, ownerName: String, title: String, height: CGFloat? = nil, width: CGFloat? = nil, imageURL: URL? = nil, publishedDate: String? = nil) {
+    init(id: String, ownerName: String, title: String, height: CGFloat? = nil, width: CGFloat? = nil, imageURL: URL? = nil, publishedDate: Date? = nil) {
         self.id = id
         self.ownerName = ownerName
         self.title = title
@@ -43,24 +43,35 @@ struct FlickrPhoto: Identifiable, Codable {
     }
 
     init?(from feedItem: FlickrFeedItem) {
-        guard let link = feedItem.link, let photoURL = URL(string: link), let author = feedItem.author
+        guard let link = feedItem.link,
+              let photoURL = URL(string: link),
+              let authorString = feedItem.author,
+              let mediaString = feedItem.media?.z ?? feedItem.media?.m
         else { return nil }
 
-        let authorString = author
         var authorName = ""
-        let regex = try! NSRegularExpression(pattern: "\"(.*)\"", options: [])
-        if let match = regex.firstMatch(in: authorString, options: [], range: NSRange(location: 0, length: authorString.utf16.count)) {
-            let range = Range(match.range(at: 1), in: authorString)!
-            authorName = String(authorString[range])
+        do {
+            let regex = try NSRegularExpression(pattern: "\"(.*)\"", options: [])
+            let authorRange = NSRange(authorString.startIndex..., in: authorString)
+            if let match = regex.firstMatch(in: authorString, options: [], range: authorRange) {
+                let range = Range(match.range(at: 1), in: authorString)!
+                authorName = String(authorString[range])
+            }
+        } catch {
+            print("Error parsing author string: \(error.localizedDescription)")
+            return nil
         }
 
         id = photoURL.lastPathComponent.replacingOccurrences(of: "/", with: "")
         ownerName = authorName
         title = feedItem.title
-        height = 300
-        width = 500
-        imageURL = URL(string: feedItem.media?.z ?? feedItem.media?.m ?? "")
-        publishedDate = feedItem.published
+        imageURL = URL(string: mediaString)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        if let stringDate = feedItem.published {
+			publishedDate = dateFormatter.date(from: stringDate)
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -75,7 +86,10 @@ struct FlickrPhoto: Identifiable, Codable {
         height = try container.decodeIfPresent(CGFloat.self, forKey: .height)
         width = try container.decodeIfPresent(CGFloat.self, forKey: .width)
         imageURL = URL(string: try container.decodeIfPresent(String.self, forKey: .url) ?? "")
-        publishedDate = try container.decodeIfPresent(String.self, forKey: .dateUpload)
+
+        if let dateUpload = try container.decodeIfPresent(String.self, forKey: .dateUpload), let timestamp = TimeInterval(dateUpload) {
+            publishedDate = Date(timeIntervalSince1970: timestamp)
+        }
     }
 
     func encode(to encoder: Encoder) throws {
