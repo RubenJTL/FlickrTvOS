@@ -26,7 +26,7 @@ extension FlickrServiceTarget: TargetType {
             fatalError("Unable to create baseURL")
         }
     }
-    var apiKey: String { "08e22f0db613f6b850daa72a94470bed" }
+    var apiKey: String { "API KEY HERE" }
 
     var method: Moya.Method {
         switch self {
