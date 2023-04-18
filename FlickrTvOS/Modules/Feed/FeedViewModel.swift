@@ -23,9 +23,10 @@ class FeedViewModel: ObservableObject {
 
     private let flickrService: FlickrServiceType
     private var cancellables = Set<AnyCancellable>()
-    private var page = 1
-    private var pages = 1
-    private var perPage = 30
+	private(set) var pages: Int
+	private let perPage: Int
+	private let debounceDuration: TimeInterval
+	private(set) var page = 1
 
     var sectionTitle: String {
         guard isSearching, let searchText
@@ -43,8 +44,14 @@ class FeedViewModel: ObservableObject {
     private var noResults: Bool { !status.isLoading && photos.isEmpty }
 
     init(
+		perPage: Int = 30,
+		pages: Int = 1,
+		debounceDuration: TimeInterval = 0.5,
         flickrService: FlickrServiceType = FlickrService.shared
     ) {
+		self.pages = pages
+		self.perPage = perPage
+		self.debounceDuration = debounceDuration
         self.flickrService = flickrService
 
         loadPhotos()
@@ -54,8 +61,8 @@ class FeedViewModel: ObservableObject {
     func loadMoreSearchPhotos(photoID: FlickrPhoto.ID) {
         let count = photos.count - 1
         let middleIndex = count - perPage / 2
-        guard isSearching, page < pages, middleIndex > 0,
-              (photos[middleIndex].id == photoID || photos.last?.id == photoID)
+		guard isSearching, page < pages,
+			  (middleIndex > 0 && photos[middleIndex].id == photoID) || photos.last?.id == photoID
         else { return }
 
         page += 1
@@ -65,7 +72,7 @@ class FeedViewModel: ObservableObject {
 
     private func setupSubscriptions() {
         flickrService.searchTextPublisher
-            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
+            .debounce(for: .seconds(debounceDuration), scheduler: DispatchQueue.main)
             .sink { [weak self] searchText in
                 guard let self, self.searchText != searchText
                 else { return }

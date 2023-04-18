@@ -10,7 +10,7 @@ import Moya
 import Combine
 
 protocol FlickrServiceType {
-    var searchTextPublisher: PassthroughSubject<String?, Never> { get }
+	var searchTextPublisher: CurrentValueSubject<String?, Never> { get }
     func getFeedPhotos() -> AnyPublisher<[FlickrPhoto], Error>
     func searchPhotos(text: String, page: Int, perPage: Int) -> AnyPublisher<FlickrPhotos, Error>
 }
@@ -20,7 +20,7 @@ class FlickrService: FlickrServiceType {
 
     static var shared: FlickrServiceType = FlickrService()
 
-    var searchTextPublisher = PassthroughSubject<String?, Never>()
+	var searchTextPublisher = CurrentValueSubject<String?, Never>(nil)
 
     init(
         provider: RestfulServiceType = RestfulService(
@@ -40,8 +40,10 @@ class FlickrService: FlickrServiceType {
     }
 
     func searchPhotos(text: String, page: Int = 1, perPage: Int = 30) -> AnyPublisher<FlickrPhotos, Error> {
-        provider.execute(target: MultiTarget(FlickrServiceTarget.searchPhotos(params: (text: text, page: page, perPage: perPage))))
-            .compactMap { (response: FlickrPhotosSearchResponse) in response.photos }
-            .eraseToAnyPublisher()
-    }
+		provider.execute(
+			target: MultiTarget(FlickrServiceTarget.searchPhotos(params: (text: text, page: page, perPage: perPage)))
+		)
+		.compactMap { (response: FlickrPhotosSearchResponse) in response.photos }
+		.eraseToAnyPublisher()
+	}
 }
