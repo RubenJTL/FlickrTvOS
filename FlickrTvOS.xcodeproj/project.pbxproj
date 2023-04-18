@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		B109A24929EE15E800305E24 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B109A24829EE15E800305E24 /* Moya */; };
 		B109A24D29EE163C00305E24 /* RestfulService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A24C29EE163C00305E24 /* RestfulService.swift */; };
+		B109A24F29EE182500305E24 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A24E29EE182500305E24 /* HomeTabView.swift */; };
+		B109A25129EE183100305E24 /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A25029EE183100305E24 /* HomeTabViewModel.swift */; };
+		B109A25329EE1A8D00305E24 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A25229EE1A8D00305E24 /* FeedView.swift */; };
+		B109A25529EE1A9700305E24 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A25429EE1A9700305E24 /* SearchView.swift */; };
 		B11F827629EE0F14000C5EE8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B11F827529EE0F14000C5EE8 /* .swiftlint.yml */; };
 		B19E582B29EE0B8200FBA53A /* FlickrTvOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */; };
-		B19E582D29EE0B8200FBA53A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E582C29EE0B8200FBA53A /* ContentView.swift */; };
 		B19E582F29EE0B8400FBA53A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19E582E29EE0B8400FBA53A /* Assets.xcassets */; };
 		B19E583C29EE0B8400FBA53A /* FlickrTvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E583B29EE0B8400FBA53A /* FlickrTvOSTests.swift */; };
 		B19E584629EE0B8400FBA53A /* FlickrTvOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E584529EE0B8400FBA53A /* FlickrTvOSUITests.swift */; };
@@ -37,10 +40,13 @@
 
 /* Begin PBXFileReference section */
 		B109A24C29EE163C00305E24 /* RestfulService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestfulService.swift; path = FlickrTvOS/RestfulService.swift; sourceTree = SOURCE_ROOT; };
+		B109A24E29EE182500305E24 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
+		B109A25029EE183100305E24 /* HomeTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
+		B109A25229EE1A8D00305E24 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		B109A25429EE1A9700305E24 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		B11F827529EE0F14000C5EE8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		B19E582729EE0B8200FBA53A /* FlickrTvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrTvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrTvOSApp.swift; sourceTree = "<group>"; };
-		B19E582C29EE0B8200FBA53A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B19E582E29EE0B8400FBA53A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B19E583729EE0B8400FBA53A /* FlickrTvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlickrTvOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19E583B29EE0B8400FBA53A /* FlickrTvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrTvOSTests.swift; sourceTree = "<group>"; };
@@ -88,6 +94,8 @@
 		B109A24429EE157C00305E24 /* HomeTab */ = {
 			isa = PBXGroup;
 			children = (
+				B109A24E29EE182500305E24 /* HomeTabView.swift */,
+				B109A25029EE183100305E24 /* HomeTabViewModel.swift */,
 			);
 			path = HomeTab;
 			sourceTree = "<group>";
@@ -95,6 +103,7 @@
 		B109A24529EE158400305E24 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				B109A25229EE1A8D00305E24 /* FeedView.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -102,6 +111,7 @@
 		B109A24629EE158A00305E24 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				B109A25429EE1A9700305E24 /* SearchView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -157,7 +167,6 @@
 				B109A24329EE157700305E24 /* Modules */,
 				B11F827129EE0D7A000C5EE8 /* Resources */,
 				B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */,
-				B19E582C29EE0B8200FBA53A /* ContentView.swift */,
 				B11F827529EE0F14000C5EE8 /* .swiftlint.yml */,
 			);
 			path = FlickrTvOS;
@@ -337,9 +346,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19E582D29EE0B8200FBA53A /* ContentView.swift in Sources */,
+				B109A25329EE1A8D00305E24 /* FeedView.swift in Sources */,
+				B109A25129EE183100305E24 /* HomeTabViewModel.swift in Sources */,
 				B19E582B29EE0B8200FBA53A /* FlickrTvOSApp.swift in Sources */,
 				B109A24D29EE163C00305E24 /* RestfulService.swift in Sources */,
+				B109A25529EE1A9700305E24 /* SearchView.swift in Sources */,
+				B109A24F29EE182500305E24 /* HomeTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
