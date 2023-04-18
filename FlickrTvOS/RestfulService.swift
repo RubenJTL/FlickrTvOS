@@ -23,7 +23,7 @@ final class RestfulService: RestfulServiceType {
         self.provider = provider
     }
 
-    func execute<T>(target: Moya.MultiTarget) -> AnyPublisher<T, Error> where T : Decodable {
+    func execute<T>(target: Moya.MultiTarget) -> AnyPublisher<T, Error> where T: Decodable {
         Future<T, Error> { [weak provider] promise in
             provider?.request(target) { result in
                 switch result {
@@ -41,5 +41,4 @@ final class RestfulService: RestfulServiceType {
         }
         .eraseToAnyPublisher()
     }
-
 }

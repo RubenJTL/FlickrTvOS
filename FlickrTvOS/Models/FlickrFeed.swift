@@ -7,12 +7,11 @@
 
 import Foundation
 
-struct FlickrFeedResponse: Codable {
-    let items: [FlickrFeedItem]
-
-    private enum CodingKeys: String, CodingKey {
-        case items
-    }
+struct FlickrFeedMedia: Codable {
+	// swiftlint:disable:next identifier_name
+	let m: String?
+	// swiftlint:disable:next identifier_name
+    let z: String?
 }
 
 struct FlickrFeedItem: Codable {
@@ -28,7 +27,10 @@ struct FlickrFeedItem: Codable {
     }
 }
 
-struct FlickrFeedMedia: Codable {
-    let m: String?
-    let z: String?
+struct FlickrFeedResponse: Codable {
+    let items: [FlickrFeedItem]
+
+    private enum CodingKeys: String, CodingKey {
+        case items
+    }
 }

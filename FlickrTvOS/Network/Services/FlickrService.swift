@@ -40,7 +40,7 @@ class FlickrService: FlickrServiceType {
     }
 
     func searchPhotos(text: String, page: Int = 1, perPage: Int = 30) -> AnyPublisher<FlickrPhotos, Error> {
-        provider.execute(target: MultiTarget(FlickrServiceTarget.searchPhotos(text: text, page: page, perPage: perPage)))
+        provider.execute(target: MultiTarget(FlickrServiceTarget.searchPhotos(params: (text: text, page: page, perPage: perPage))))
             .compactMap { (response: FlickrPhotosSearchResponse) in response.photos }
             .eraseToAnyPublisher()
     }

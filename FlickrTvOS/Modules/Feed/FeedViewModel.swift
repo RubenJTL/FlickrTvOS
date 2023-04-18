@@ -27,6 +27,21 @@ class FeedViewModel: ObservableObject {
     private var pages = 1
     private var perPage = 30
 
+    var sectionTitle: String {
+        guard isSearching, let searchText
+        else { return "Trending Now On Flickr" }
+
+        return noResults ? "No search results for \"\(searchText)\"" : "Search Results for \"\(searchText)\""
+    }
+
+    private var isSearching: Bool {
+        guard let searchText
+        else { return false }
+
+        return !searchText.isEmpty
+    }
+    private var noResults: Bool { !status.isLoading && photos.isEmpty }
+
     init(
         flickrService: FlickrServiceType = FlickrService.shared
     ) {
@@ -34,13 +49,6 @@ class FeedViewModel: ObservableObject {
 
         loadPhotos()
         setupSubscriptions()
-    }
-
-    var sectionTitle: String {
-        guard isSearching, let searchText
-        else { return "Trending Now On Flickr" }
-
-        return noResults ? "No search results for \"\(searchText)\"" : "Search Results for \"\(searchText)\""
     }
 
     func loadMoreSearchPhotos(photoID: FlickrPhoto.ID) {
@@ -55,13 +63,13 @@ class FeedViewModel: ObservableObject {
 		loadPhotos()
     }
 
-    private var isSearching: Bool { searchText != nil && !searchText!.isEmpty }
-    private var noResults: Bool { !status.isLoading && photos.isEmpty }
-
     private func setupSubscriptions() {
         flickrService.searchTextPublisher
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-            .sink { searchText in
+            .sink { [weak self] searchText in
+                guard let self, self.searchText != searchText
+                else { return }
+
                 self.searchText = searchText
                 self.photos = []
 
@@ -87,11 +95,13 @@ class FeedViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 switch completion {
-                case .finished, .failure:
+                case .finished:
                     self?.status = .loaded
+                case .failure:
+                    self?.status = .failed
                 }
-            } receiveValue: { photos in
-                self.photos = photos
+            } receiveValue: { [weak self] photos in
+                self?.photos = photos
             }
             .store(in: &cancellables)
     }
@@ -101,31 +111,32 @@ class FeedViewModel: ObservableObject {
 
         loadSearchPhotosPublisher
             .compactMap { $0.photo }
-            .map {[weak self] photos in
+            .map { [weak self] photos in
                 guard let self
                 else { return [] }
 
                 return photos.filter { photo in
-                    !self.photos.contains(where: { $0.id == photo.id } )
+                    !self.photos.contains(where: { $0.id == photo.id })
                 }
             }
             .receive(on: DispatchQueue.main)
-            .sink { _ in } receiveValue: { [weak self] photos in
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    self?.status = .loaded
+                case .failure:
+                    self?.status = .failed
+                }
+            } receiveValue: { [weak self] photos in
                 self?.photos += photos
             }
             .store(in: &cancellables)
 
         loadSearchPhotosPublisher
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished, .failure:
-                    self?.status = .loaded
-                }
-            } receiveValue: { [weak self] flickrPhotos in
+            .sink { _ in } receiveValue: { [weak self] flickrPhotos in
                 self?.page = flickrPhotos.page
                 self?.pages = flickrPhotos.pages
             }
             .store(in: &cancellables)
     }
-
 }

@@ -12,13 +12,13 @@ struct FeedView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: Spacing.large) {
                 Text(viewModel.sectionTitle)
                     .padding(.horizontal, Spacing.small)
                 LazyVGrid(columns: columns()) {
                     ForEach(viewModel.photos) { photo in
-                        PhotoCardView(imageURL: photo.imageURL,title: photo.title, author: photo.ownerName, publishedDate: photo.publishedDate)
-                            .onAppear{
+                        PhotoCardView(imageURL: photo.imageURL, title: photo.title, author: photo.ownerName, publishedDate: photo.publishedDate)
+                            .onAppear {
                                 viewModel.loadMoreSearchPhotos(photoID: photo.id)
                             }
                     }
@@ -36,7 +36,7 @@ struct FeedView: View {
 
     private var loadingSectionView: some View {
         ForEach(FlickrPhoto.dummyData) {
-            PhotoCardView(imageURL: $0.imageURL,title: $0.title, author: $0.ownerName, publishedDate: $0.publishedDate, isLoading: true)
+            PhotoCardView(imageURL: $0.imageURL, title: $0.title, author: $0.ownerName, publishedDate: $0.publishedDate, isLoading: true)
         }
     }
 

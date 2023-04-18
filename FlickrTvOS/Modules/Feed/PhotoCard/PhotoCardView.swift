@@ -15,38 +15,27 @@ struct PhotoCardView: View {
     var isLoading: Bool = false
 
     var body: some View {
-        Button(action: {}) {
-            asyncImage
+        Button(action: {}, label: {
+            asyncImage()
                 .overlay(alignment: .bottom) {
                     gradientView
                 }
                 .overlay(alignment: .bottomLeading) {
-                    labels
+                    labelsView
                 }
-        }
+        })
         .buttonStyle(.card)
     }
 
-    @ViewBuilder
-    private var asyncImage: some View {
-        AsyncImage(url: imageURL) { phase in
-            switch phase {
-            case .empty:
-                emptyImageView
-            case .failure:
-                failureImageView
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
+    private var authorPublishedDateLabel: String {
+        guard let publishedDate
+        else { return author }
 
-            @unknown default:
-                fatalError()
-            }
-        }
-        .redacted(reason: isLoading ? .placeholder : [])
-        .frame(maxWidth: Constants.imageSize.width)
-        .frame(height: Constants.imageSize.height)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd yyyy"
+        let formattedDate = dateFormatter.string(from: publishedDate)
+
+        return "\(author) / \(formattedDate)"
     }
 
     private var emptyImageView: some View {
@@ -63,11 +52,13 @@ struct PhotoCardView: View {
         }
     }
 
-    private var labels: some View {
+    private var labelsView: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
             Text(title)
             Text(authorPublishedDateLabel)
         }
+        .lineLimit(2)
+        .multilineTextAlignment(.leading)
         .padding(Spacing.regular)
         .redacted(reason: isLoading ? .placeholder : [])
     }
@@ -84,15 +75,26 @@ struct PhotoCardView: View {
         )
     }
 
-    private var authorPublishedDateLabel: String {
-        guard let publishedDate
-        else { return author }
+    @ViewBuilder
+    private func asyncImage() -> some View {
+        AsyncImage(url: imageURL) { phase in
+            switch phase {
+            case .empty:
+                emptyImageView
+            case .failure:
+                failureImageView
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd yyyy"
-        let formattedDate = dateFormatter.string(from: publishedDate)
-
-        return "\(author) / \(formattedDate)"
+            @unknown default:
+                fatalError("Unexpected phase state was returned")
+            }
+        }
+        .redacted(reason: isLoading ? .placeholder : [])
+        .frame(maxWidth: Constants.imageSize.width)
+        .frame(height: Constants.imageSize.height)
     }
 }
 

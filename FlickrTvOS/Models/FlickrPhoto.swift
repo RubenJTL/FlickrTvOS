@@ -9,7 +9,6 @@ import Foundation
 
 struct FlickrPhotosSearchResponse: Codable {
     let photos: FlickrPhotos
-    let stat: String
 }
 
 struct FlickrPhotos: Codable {
@@ -31,6 +30,15 @@ struct FlickrPhoto: Identifiable, Codable {
     var width: CGFloat?
     let imageURL: URL?
     var publishedDate: Date?
+
+    static var dummyData: [FlickrPhoto] {
+        var dummyData = [FlickrPhoto]()
+        for index in 0...6 {
+            let photo = FlickrPhoto(id: "\(index)-dummyData-dummyData-title", ownerName: "dummyData", title: "dummyData-title")
+            dummyData.append(photo)
+        }
+        return dummyData
+    }
 
     init(id: String, ownerName: String, title: String, height: CGFloat? = nil, width: CGFloat? = nil, imageURL: URL? = nil, publishedDate: Date? = nil) {
         self.id = id
@@ -54,7 +62,9 @@ struct FlickrPhoto: Identifiable, Codable {
             let regex = try NSRegularExpression(pattern: "\"(.*)\"", options: [])
             let authorRange = NSRange(authorString.startIndex..., in: authorString)
             if let match = regex.firstMatch(in: authorString, options: [], range: authorRange) {
-                let range = Range(match.range(at: 1), in: authorString)!
+                guard let range = Range(match.range(at: 1), in: authorString)
+                else { return nil }
+
                 authorName = String(authorString[range])
             }
         } catch {
@@ -72,10 +82,6 @@ struct FlickrPhoto: Identifiable, Codable {
         if let stringDate = feedItem.published {
 			publishedDate = dateFormatter.date(from: stringDate)
         }
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id, title, ownerName = "ownername", url = "url_z", height = "height_z", width = "width_z", dateUpload = "dateupload"
     }
 
     init(from decoder: Decoder) throws {
@@ -106,16 +112,8 @@ struct FlickrPhoto: Identifiable, Codable {
 
         try container.encodeIfPresent(publishedDate, forKey: .dateUpload)
     }
-}
 
-
-extension FlickrPhoto {
-    static var dummyData: [FlickrPhoto] {
-        var dummyData = [FlickrPhoto]()
-        for index in 0...6 {
-			let photo = FlickrPhoto(id: "\(index)-dummyData-dummyData-title", ownerName: "dummyData", title: "dummyData-title")
-            dummyData.append(photo)
-        }
-        return dummyData
+    private enum CodingKeys: String, CodingKey {
+        case id, title, ownerName = "ownername", url = "url_z", height = "height_z", width = "width_z", dateUpload = "dateupload"
     }
 }
