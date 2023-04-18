@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B109A24929EE15E800305E24 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B109A24829EE15E800305E24 /* Moya */; };
+		B109A24D29EE163C00305E24 /* RestfulService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A24C29EE163C00305E24 /* RestfulService.swift */; };
 		B11F827629EE0F14000C5EE8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B11F827529EE0F14000C5EE8 /* .swiftlint.yml */; };
 		B19E582B29EE0B8200FBA53A /* FlickrTvOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */; };
 		B19E582D29EE0B8200FBA53A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E582C29EE0B8200FBA53A /* ContentView.swift */; };
@@ -34,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B109A24C29EE163C00305E24 /* RestfulService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestfulService.swift; path = FlickrTvOS/RestfulService.swift; sourceTree = SOURCE_ROOT; };
 		B11F827529EE0F14000C5EE8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		B19E582729EE0B8200FBA53A /* FlickrTvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrTvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrTvOSApp.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B109A24929EE15E800305E24 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,32 +75,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B11F826D29EE0D3B000C5EE8 /* Utils */ = {
+		B109A24329EE157700305E24 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				B109A24629EE158A00305E24 /* Search */,
+				B109A24529EE158400305E24 /* Feed */,
+				B109A24429EE157C00305E24 /* HomeTab */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		B109A24429EE157C00305E24 /* HomeTab */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Utils;
+			path = HomeTab;
 			sourceTree = "<group>";
 		};
-		B11F826E29EE0D4D000C5EE8 /* Models */ = {
+		B109A24529EE158400305E24 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Models;
+			path = Feed;
 			sourceTree = "<group>";
 		};
-		B11F826F29EE0D55000C5EE8 /* Network */ = {
+		B109A24629EE158A00305E24 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		B109A24A29EE15FD00305E24 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B109A24B29EE162A00305E24 /* Services */,
 			);
 			path = Network;
 			sourceTree = "<group>";
 		};
-		B11F827029EE0D5D000C5EE8 /* Modules */ = {
+		B109A24B29EE162A00305E24 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B109A24C29EE163C00305E24 /* RestfulService.swift */,
 			);
-			path = Modules;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		B11F827129EE0D7A000C5EE8 /* Resources */ = {
@@ -130,11 +153,9 @@
 		B19E582929EE0B8200FBA53A /* FlickrTvOS */ = {
 			isa = PBXGroup;
 			children = (
+				B109A24A29EE15FD00305E24 /* Network */,
+				B109A24329EE157700305E24 /* Modules */,
 				B11F827129EE0D7A000C5EE8 /* Resources */,
-				B11F827029EE0D5D000C5EE8 /* Modules */,
-				B11F826F29EE0D55000C5EE8 /* Network */,
-				B11F826E29EE0D4D000C5EE8 /* Models */,
-				B11F826D29EE0D3B000C5EE8 /* Utils */,
 				B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */,
 				B19E582C29EE0B8200FBA53A /* ContentView.swift */,
 				B11F827529EE0F14000C5EE8 /* .swiftlint.yml */,
@@ -176,6 +197,9 @@
 			dependencies = (
 			);
 			name = FlickrTvOS;
+			packageProductDependencies = (
+				B109A24829EE15E800305E24 /* Moya */,
+			);
 			productName = FlickrTvOS;
 			productReference = B19E582729EE0B8200FBA53A /* FlickrTvOS.app */;
 			productType = "com.apple.product-type.application";
@@ -248,6 +272,9 @@
 				Base,
 			);
 			mainGroup = B19E581E29EE0B8200FBA53A;
+			packageReferences = (
+				B109A24729EE15E800305E24 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = B19E582829EE0B8200FBA53A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -312,6 +339,7 @@
 			files = (
 				B19E582D29EE0B8200FBA53A /* ContentView.swift in Sources */,
 				B19E582B29EE0B8200FBA53A /* FlickrTvOSApp.swift in Sources */,
+				B109A24D29EE163C00305E24 /* RestfulService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +658,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B109A24729EE15E800305E24 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B109A24829EE15E800305E24 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B109A24729EE15E800305E24 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B19E581F29EE0B8200FBA53A /* Project object */;
 }
