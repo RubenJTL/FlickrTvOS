@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "E23C27A0-1627-4690-A4E7-F003E7EF07EB",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FlickrTvOS.xcodeproj",
+      "identifier" : "B19E582629EE0B8200FBA53A",
+      "name" : "FlickrTvOS"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:FlickrTvOS.xcodeproj",
+        "identifier" : "B19E583629EE0B8400FBA53A",
+        "name" : "FlickrTvOSTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:FlickrTvOS.xcodeproj",
+        "identifier" : "B19E584029EE0B8400FBA53A",
+        "name" : "FlickrTvOSUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
