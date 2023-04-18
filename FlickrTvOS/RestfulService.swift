@@ -29,7 +29,6 @@ final class RestfulService: RestfulServiceType {
                 switch result {
                 case let .success(response):
                     do {
-                        let responseBody = String(data: response.data, encoding: .utf8)
                         let results = try JSONDecoder().decode(T.self, from: response.data)
                         promise(.success(results))
                     } catch let error {
