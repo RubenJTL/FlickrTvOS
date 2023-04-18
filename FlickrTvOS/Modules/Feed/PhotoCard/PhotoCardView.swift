@@ -11,42 +11,31 @@ struct PhotoCardView: View {
     let imageURL: URL?
     let title: String
     let author: String
-    let dayPublished: String
+    let publishedDate: Date?
     var isLoading: Bool = false
 
     var body: some View {
-        Button(action: {}) {
-            asyncImage
+        Button(action: {}, label: {
+            asyncImage()
                 .overlay(alignment: .bottom) {
                     gradientView
                 }
                 .overlay(alignment: .bottomLeading) {
-                    labels
+                    labelsView
                 }
-        }
+        })
         .buttonStyle(.card)
     }
 
-    @ViewBuilder
-    private var asyncImage: some View {
-        AsyncImage(url: imageURL) { phase in
-            switch phase {
-            case .empty:
-                emptyImageView
-            case .failure:
-                failureImageView
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
+    private var authorPublishedDateLabel: String {
+        guard let publishedDate
+        else { return author }
 
-            @unknown default:
-                fatalError()
-            }
-        }
-        .redacted(reason: isLoading ? .placeholder : [])
-        .frame(maxWidth: Constants.imageSize.width)
-        .frame(height: Constants.imageSize.height)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd yyyy"
+        let formattedDate = dateFormatter.string(from: publishedDate)
+
+        return "\(author) / \(formattedDate)"
     }
 
     private var emptyImageView: some View {
@@ -63,11 +52,13 @@ struct PhotoCardView: View {
         }
     }
 
-    private var labels: some View {
+    private var labelsView: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
             Text(title)
-            Text(author)+Text(dayPublished)
+            Text(authorPublishedDateLabel)
         }
+        .lineLimit(2)
+        .multilineTextAlignment(.leading)
         .padding(Spacing.regular)
         .redacted(reason: isLoading ? .placeholder : [])
     }
@@ -83,16 +74,41 @@ struct PhotoCardView: View {
             endPoint: .bottom
         )
     }
+
+    @ViewBuilder
+    private func asyncImage() -> some View {
+        AsyncImage(url: imageURL) { phase in
+            switch phase {
+            case .empty:
+                emptyImageView
+            case .failure:
+                failureImageView
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+
+            @unknown default:
+                fatalError("Unexpected phase state was returned")
+            }
+        }
+        .redacted(reason: isLoading ? .placeholder : [])
+        .frame(maxWidth: Constants.imageSize.width)
+        .frame(height: Constants.imageSize.height)
+    }
 }
 
 extension PhotoCardView {
     enum Constants {
-        static let imageSize: CGSize = .init(width: 500, height: 300)
+        static let imageSize: CGSize = .init(width: 600, height: 300)
     }
 }
 
 struct PhotoCard_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoCardView(imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"), title: "Game", author: "jnn1776", dayPublished: "2023-04-18T00:43:06Z", isLoading: true)
+        Group {
+            PhotoCardView(imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"), title: "Game", author: "jnn1776", publishedDate: Date(), isLoading: true)
+            PhotoCardView(imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"), title: "Game", author: "jnn1776", publishedDate: Date(), isLoading: false)
+        }
     }
 }

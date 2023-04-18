@@ -1,0 +1,43 @@
+{
+    "photos": {
+        "page": 1,
+        "pages": 1,
+        "perpage": 2,
+        "total": 77391,
+        "photo": [
+            {
+                "id": "52827256711",
+                "owner": "60564189@N06",
+                "secret": "0b79169e03",
+                "server": "65535",
+                "farm": 66,
+                "title": "Students and Senior Leaders From the North Atlantic Treaty Organization (NATO) Defense College Visit ANC",
+                "ispublic": 1,
+                "isfriend": 0,
+                "isfamily": 0,
+                "dateupload": "1681829880",
+                "url_z": "https://live.staticflickr.com/65535/52827256711_0b79169e03_z.jpg",
+                "height_z": 427,
+                "width_z": 640,
+                "ownername": "hasiy3"
+            },
+            {
+                "id": "52826058142",
+                "owner": "133795069@N05",
+                "secret": "9a1a96c32f",
+                "server": "65535",
+                "farm": 66,
+                "title": "GENERAL CARGO VESSEL 'ICS SILVER LINING' PORT PIRIE 30th Mar 2023.",
+                "ispublic": 1,
+                "isfriend": 0,
+                "isfamily": 0,
+                "dateupload": "1681806245",
+                "url_z": "https://live.staticflickr.com/65535/52826058142_9a1a96c32f_z.jpg",
+                "height_z": 427,
+                "width_z": 640,
+                "ownername": "Les Stills"
+            }
+        ]
+    },
+    "stat": "ok"
+}
