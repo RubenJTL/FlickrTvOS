@@ -26,7 +26,6 @@ class FeedViewModel: ObservableObject {
     private var page = 1
     private var pages = 1
     private var perPage = 30
-    private var isSearching: Bool { searchText != nil && !searchText!.isEmpty }
 
     init(
         flickrService: FlickrServiceType = FlickrService.shared
@@ -35,6 +34,10 @@ class FeedViewModel: ObservableObject {
 
         loadPhotos()
         setupSubscriptions()
+    }
+
+    var sectionTitle: String {
+        isSearching ? "Search Results for \"\(searchText ?? "")\"" : "Trending Now On Flickr"
     }
 
     func loadMoreSearchPhotos(photoID: FlickrPhoto.ID) {
@@ -48,6 +51,8 @@ class FeedViewModel: ObservableObject {
 
 		loadPhotos()
     }
+
+    private var isSearching: Bool { searchText != nil && !searchText!.isEmpty }
 
     private func setupSubscriptions() {
         flickrService.searchTextPublisher

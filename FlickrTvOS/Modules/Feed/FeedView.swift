@@ -12,19 +12,24 @@ struct FeedView: View {
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns()) {
-                ForEach(viewModel.photos) { photo in
-                    PhotoCardView(imageURL: photo.imageURL,title: photo.title, author: photo.ownerName, publishedDate: photo.publishedDate)
-                        .onAppear{
-                            viewModel.loadMoreSearchPhotos(photoID: photo.id)
-                        }
-                }
+            VStack(alignment: .leading) {
+                Text(viewModel.sectionTitle)
+                    .padding(.horizontal, Spacing.small)
+                LazyVGrid(columns: columns()) {
+                    ForEach(viewModel.photos) { photo in
+                        PhotoCardView(imageURL: photo.imageURL,title: photo.title, author: photo.ownerName, publishedDate: photo.publishedDate)
+                            .onAppear{
+                                viewModel.loadMoreSearchPhotos(photoID: photo.id)
+                            }
+                    }
 
-                if viewModel.status.isLoading {
-                    loadingSectionView
-                        .focusable(false)
+                    if viewModel.status.isLoading {
+                        loadingSectionView
+                            .focusable(false)
+                    }
                 }
             }
+            .padding(.horizontal, Spacing.extraLarge)
         }
         .edgesIgnoringSafeArea(.horizontal)
     }

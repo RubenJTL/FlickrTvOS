@@ -19,6 +19,6 @@ class SearchViewModel: ObservableObject {
     }
 
     func searchTextChanged(text: String) {
-        flickrService.searchTextPublisher.send(text)
+        flickrService.searchTextPublisher.send(text.trimmed())
     }
 }

@@ -15,7 +15,7 @@ enum FlickrServiceTarget {
 
 extension FlickrServiceTarget: TargetType {
     var baseURL: URL { URL(string: "https://api.flickr.com/services")! }
-    var apiKey: String { "08e22f0db613f6b850daa72a94470bed" }
+    var apiKey: String { "Write your api key here" }
 
     var method: Moya.Method {
         switch self {
