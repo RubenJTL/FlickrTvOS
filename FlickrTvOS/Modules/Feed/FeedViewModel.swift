@@ -37,14 +37,17 @@ class FeedViewModel: ObservableObject {
     }
 
     var sectionTitle: String {
-        isSearching ? "Search Results for \"\(searchText ?? "")\"" : "Trending Now On Flickr"
+        guard isSearching, let searchText
+        else { return "Trending Now On Flickr" }
+
+        return noResults ? "No search results for \"\(searchText)\"" : "Search Results for \"\(searchText)\""
     }
 
     func loadMoreSearchPhotos(photoID: FlickrPhoto.ID) {
         let count = photos.count - 1
         let middleIndex = count - perPage / 2
         guard isSearching, page < pages, middleIndex > 0,
-              photos[middleIndex].id == photoID
+              (photos[middleIndex].id == photoID || photos.last?.id == photoID)
         else { return }
 
         page += 1
@@ -53,6 +56,7 @@ class FeedViewModel: ObservableObject {
     }
 
     private var isSearching: Bool { searchText != nil && !searchText!.isEmpty }
+    private var noResults: Bool { !status.isLoading && photos.isEmpty }
 
     private func setupSubscriptions() {
         flickrService.searchTextPublisher
