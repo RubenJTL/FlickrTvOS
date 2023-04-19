@@ -44,7 +44,7 @@ class FeedViewModel: ObservableObject {
     private var noResults: Bool { !status.isLoading && photos.isEmpty }
 
     init(
-		perPage: Int = 30,
+		perPage: Int = 40,
 		pages: Int = 1,
 		debounceDuration: TimeInterval = 0.5,
         flickrService: FlickrServiceType = FlickrService.shared

@@ -179,6 +179,7 @@
 		B109A25929EE22F100305E24 /* AppCommon */ = {
 			isa = PBXGroup;
 			children = (
+				B184C2D129EF07BD00C0C685 /* Extensions */,
 				B109A25A29EE230900305E24 /* Spacing.swift */,
 			);
 			path = AppCommon;
@@ -268,11 +269,10 @@
 		B19E582929EE0B8200FBA53A /* FlickrTvOS */ = {
 			isa = PBXGroup;
 			children = (
-				B184C2D129EF07BD00C0C685 /* Extensions */,
-				B184C2C829EE2A6C00C0C685 /* Models */,
-				B109A25929EE22F100305E24 /* AppCommon */,
 				B109A24A29EE15FD00305E24 /* Network */,
+				B184C2C829EE2A6C00C0C685 /* Models */,
 				B109A24329EE157700305E24 /* Modules */,
+				B109A25929EE22F100305E24 /* AppCommon */,
 				B11F827129EE0D7A000C5EE8 /* Resources */,
 				B19E582A29EE0B8200FBA53A /* FlickrTvOSApp.swift */,
 			);

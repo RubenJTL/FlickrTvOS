@@ -17,10 +17,15 @@ struct FeedView: View {
                     .padding(.horizontal, Spacing.small)
                 LazyVGrid(columns: columns()) {
                     ForEach(viewModel.photos) { photo in
-                        PhotoCardView(imageURL: photo.imageURL, title: photo.title, author: photo.ownerName, publishedDate: photo.publishedDate)
-                            .onAppear {
-                                viewModel.loadMoreSearchPhotos(photoID: photo.id)
-                            }
+                        PhotoCardView(
+                            imageURL: photo.imageURL,
+                            title: photo.title,
+                            author: photo.ownerName,
+                            publishedDate: photo.publishedDate
+                        )
+                        .onAppear {
+                            viewModel.loadMoreSearchPhotos(photoID: photo.id)
+                        }
                     }
 
                     if viewModel.status.isLoading {

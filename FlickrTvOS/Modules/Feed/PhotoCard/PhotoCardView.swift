@@ -13,19 +13,32 @@ struct PhotoCardView: View {
     let author: String
     let publishedDate: Date?
     var isLoading: Bool = false
+    var height: CGFloat?
+    var width: CGFloat?
+
+    @State var scaleFactor: CGFloat = 1
 
     var body: some View {
-        Button(action: {}, label: {
-            asyncImage()
-                .overlay(alignment: .bottom) {
-                    gradientView
-                }
-                .overlay(alignment: .bottomLeading) {
-                    labelsView
-                }
-        })
-        .buttonStyle(.card)
+        GeometryReader { geometry in
+            Button(action: {}, label: {
+                asyncImage()
+                    .frame(height: imageHeight)
+                    .overlay(alignment: .bottom) {
+                        gradientView
+                    }
+                    .overlay(alignment: .bottomLeading) {
+                        labelsView
+                    }
+            })
+            .buttonStyle(.card)
+            .onAppear {
+                scaleFactor = geometry.size.width / (width ?? Constants.imageSize.width)
+            }
+        }
+        .frame(minHeight: imageHeight, alignment: .center)
     }
+
+    private var imageHeight: CGFloat { (height ?? Constants.imageSize.height) * scaleFactor }
 
     private var authorPublishedDateLabel: String {
         guard let publishedDate
@@ -93,14 +106,12 @@ struct PhotoCardView: View {
             }
         }
         .redacted(reason: isLoading ? .placeholder : [])
-        .frame(maxWidth: Constants.imageSize.width)
-        .frame(height: Constants.imageSize.height)
     }
 }
 
 extension PhotoCardView {
     enum Constants {
-        static let imageSize: CGSize = .init(width: 600, height: 300)
+        static let imageSize: CGSize = .init(width: 580, height: 300)
     }
 }
 
