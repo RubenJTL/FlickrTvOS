@@ -19,23 +19,14 @@ struct PhotoCardView: View {
     @State var scaleFactor: CGFloat = 1
 
     var body: some View {
-        GeometryReader { geometry in
-            Button(action: {}, label: {
-                asyncImage()
-                    .frame(height: imageHeight)
-                    .overlay(alignment: .bottom) {
-                        gradientView
-                    }
-                    .overlay(alignment: .bottomLeading) {
-                        labelsView
-                    }
-            })
-            .buttonStyle(.card)
-            .onAppear {
-                scaleFactor = geometry.size.width / (width ?? Constants.imageSize.width)
+        asyncImage()
+            .frame(height: imageHeight)
+            .overlay(alignment: .bottom) {
+                gradientView
             }
-        }
-        .frame(minHeight: imageHeight, alignment: .center)
+            .overlay(alignment: .bottomLeading) {
+                labelsView
+            }
     }
 
     private var imageHeight: CGFloat { (height ?? Constants.imageSize.height) * scaleFactor }

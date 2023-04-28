@@ -11,7 +11,9 @@ import SwiftUI
 struct FlickrTvOSApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeTabView()
+            NavigationView {
+                HomeTabView()
+            }
         }
     }
 }

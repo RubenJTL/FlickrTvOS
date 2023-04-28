@@ -28,7 +28,6 @@ class FlickrServiceMock: FlickrServiceType {
 			.store(in: &cancellables)
 	}
 
-
 	func getFeedPhotos() -> AnyPublisher<[FlickrPhoto], Error> {
 		getFeedPhotosCalled = true
 		return Empty().eraseToAnyPublisher()
