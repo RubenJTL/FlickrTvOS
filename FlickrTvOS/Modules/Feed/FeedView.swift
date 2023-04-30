@@ -7,39 +7,56 @@
 
 import SwiftUI
 
+enum Focusable: Hashable {
+    case none
+    case row(id: String)
+}
+
 struct FeedView: View {
     @StateObject var viewModel: FeedViewModel = FeedViewModel()
+    @FocusState var focusedReminder: Focusable?
+    @EnvironmentObject var navigationViewModel: NavigationViewModel
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Spacing.large) {
-                Text(viewModel.sectionTitle)
-                    .padding(.horizontal, Spacing.small)
-                LazyVGrid(columns: columns()) {
-                    ForEach(viewModel.photos) { photo in
-                        NavigationLink {
-                            FullscreenPhotoView(viewModel: .init(currentPhoto: photo, photos: viewModel.photos))
-                        } label: {
-                            PhotoCardView(
-                                imageURL: photo.imageURL,
-                                title: photo.title,
-                                author: photo.ownerName,
-                                publishedDate: photo.publishedDate
-                            )
-                            .onAppear {
-                                viewModel.loadMoreSearchPhotos(photoID: photo.id)
+        ScrollViewReader { scrollProxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: Spacing.large) {
+                    Text(viewModel.sectionTitle)
+                        .padding(.horizontal, Spacing.small)
+                    LazyVGrid(columns: columns()) {
+                        ForEach(viewModel.photos.indices, id: \.self) { index in
+                            let photo = viewModel.photos[index]
+                            Button {
+                                viewModel.select(photo: photo)
+                                navigationViewModel.path.append(photo)
+                            } label: {
+                                PhotoCardView(
+                                    imageURL: photo.imageURL,
+                                    title: photo.title,
+                                    author: photo.ownerName,
+                                    publishedDate: photo.publishedDate
+                                )
+                                .onAppear {
+                                    viewModel.loadMoreSearchPhotos(photoID: photo.id)
+                                }
                             }
+                            .buttonStyle(.card)
+                            .focused($focusedReminder, equals: .row(id: photo.id))
                         }
-                        .buttonStyle(.card)
-                    }
-
-                    if viewModel.status.isLoading {
-                        loadingSectionView
-                            .focusable(false)
+                        if viewModel.status.isLoading {
+                            loadingSectionView
+                                .focusable(false)
+                        }
                     }
                 }
+                .padding(.horizontal, Spacing.extraLarge)
             }
-            .padding(.horizontal, Spacing.extraLarge)
+            .navigationDestination(for: FlickrPhoto.self) { _ in
+                FullscreenPhotoView(selectedPhotoIndex: $viewModel.currentPhotoIndex, photos: viewModel.photos, onDisappear: {
+                    focusedReminder = .row(id: viewModel.photos[viewModel.currentPhotoIndex].id)
+                    scrollProxy.scrollTo(viewModel.currentPhotoIndex)
+                })
+            }
         }
         .edgesIgnoringSafeArea(.horizontal)
     }

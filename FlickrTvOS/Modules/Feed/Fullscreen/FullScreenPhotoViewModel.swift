@@ -12,8 +12,11 @@ final class FullscreenPhotoViewModel: ObservableObject {
     @Published var currentPhoto: FlickrPhoto
     let photos: [FlickrPhoto]
 
-    init(currentPhoto: FlickrPhoto, photos: [FlickrPhoto]) {
+//    let updateCurrentPhoto: (FlickrPhoto) -> Void
+
+    init(currentPhoto: FlickrPhoto, photos: [FlickrPhoto], updateCurrentPhoto: @escaping (FlickrPhoto) -> Void) {
         self.currentPhoto = currentPhoto
         self.photos = photos
+//        self.updateCurrentPhoto = updateCurrentPhoto
     }
 }

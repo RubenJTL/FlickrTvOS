@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct FullscreenPhotoView: View {
-    @ObservedObject var viewModel: FullscreenPhotoViewModel
+    @Binding var selectedPhotoIndex: Int
+    let photos: [FlickrPhoto]
+    let onDisappear: () -> Void
 
     var body: some View {
         GeometryReader { geometry in
-            TabView(selection: $viewModel.currentPhoto) {
-                ForEach(viewModel.photos, id: \.self) { photo in
+            TabView(selection: $selectedPhotoIndex) {
+                ForEach(photos.indices, id: \.self) { index in
                     Button {
                     } label: {
-                        asyncImage(url: photo.imageURL)
+                        asyncImage(url: photos[index].imageURL)
                             .frame(width: geometry.size.width, height: geometry.size.height)
                     }
                     .buttonStyle(.card)
@@ -25,6 +27,7 @@ struct FullscreenPhotoView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
         .ignoresSafeArea()
+        .onDisappear(perform: onDisappear)
     }
 
     private func asyncImage(url: URL?) -> some View {
@@ -60,9 +63,21 @@ struct FullscreenPhotoView: View {
     }
 }
 
-struct FullscreenPhotoView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = FullscreenPhotoViewModel(currentPhoto: FlickrPhoto(id: "test", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), photos: [FlickrPhoto(id: "test", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), FlickrPhoto(id: "test1", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), FlickrPhoto(id: "test2", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"))])
-        FullscreenPhotoView(viewModel: viewModel)
+//struct FullscreenPhotoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let viewModel = FullscreenPhotoViewModel(currentPhoto: FlickrPhoto(id: "test", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), photos: [FlickrPhoto(id: "test", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), FlickrPhoto(id: "test1", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), FlickrPhoto(id: "test2", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"))], updateCurrentPhoto: { _ in })
+//        FullscreenPhotoView(viewModel: viewModel)
+//    }
+//}
+
+public struct LazyView<LazyContent: View>: View {
+    @ViewBuilder private var build: () -> LazyContent
+
+    public var body: some View {
+        build()
+    }
+
+    public init(@ViewBuilder build: @escaping () -> LazyContent) {
+        self.build = build
     }
 }

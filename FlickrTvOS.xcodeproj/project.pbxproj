@@ -17,7 +17,6 @@
 		B109A25B29EE230900305E24 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B109A25A29EE230900305E24 /* Spacing.swift */; };
 		B11F827629EE0F14000C5EE8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B11F827529EE0F14000C5EE8 /* .swiftlint.yml */; };
 		B16963DE29FC541400B4E484 /* FullscreenPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16963DD29FC541400B4E484 /* FullscreenPhotoView.swift */; };
-		B16963E029FC72FF00B4E484 /* FullScreenPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16963DF29FC72FF00B4E484 /* FullScreenPhotoViewModel.swift */; };
 		B184C2C529EE27C900C0C685 /* FlickrService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184C2C429EE27C900C0C685 /* FlickrService.swift */; };
 		B184C2C729EE27F200C0C685 /* FlickrServiceTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184C2C629EE27F200C0C685 /* FlickrServiceTarget.swift */; };
 		B184C2CA29EE422E00C0C685 /* FlickrFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184C2C929EE422E00C0C685 /* FlickrFeed.swift */; };
@@ -66,7 +65,6 @@
 		B109A25A29EE230900305E24 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		B11F827529EE0F14000C5EE8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		B16963DD29FC541400B4E484 /* FullscreenPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenPhotoView.swift; sourceTree = "<group>"; };
-		B16963DF29FC72FF00B4E484 /* FullScreenPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewModel.swift; sourceTree = "<group>"; };
 		B184C2C429EE27C900C0C685 /* FlickrService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrService.swift; sourceTree = "<group>"; };
 		B184C2C629EE27F200C0C685 /* FlickrServiceTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrServiceTarget.swift; sourceTree = "<group>"; };
 		B184C2C929EE422E00C0C685 /* FlickrFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrFeed.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				B16963DD29FC541400B4E484 /* FullscreenPhotoView.swift */,
-				B16963DF29FC72FF00B4E484 /* FullScreenPhotoViewModel.swift */,
 			);
 			path = Fullscreen;
 			sourceTree = "<group>";
@@ -522,7 +519,6 @@
 				B109A25B29EE230900305E24 /* Spacing.swift in Sources */,
 				B109A25529EE1A9700305E24 /* SearchView.swift in Sources */,
 				B16963DE29FC541400B4E484 /* FullscreenPhotoView.swift in Sources */,
-				B16963E029FC72FF00B4E484 /* FullScreenPhotoViewModel.swift in Sources */,
 				B109A24F29EE182500305E24 /* HomeTabView.swift in Sources */,
 				B184C2D329EF07D100C0C685 /* String+Extension.swift in Sources */,
 				B184C2CE29EE4C6D00C0C685 /* FeedViewModel.swift in Sources */,

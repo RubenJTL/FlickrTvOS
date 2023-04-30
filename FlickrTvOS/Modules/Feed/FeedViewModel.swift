@@ -20,6 +20,8 @@ class FeedViewModel: ObservableObject {
     @Published private(set) var photos: [FlickrPhoto] = []
     @Published private(set) var searchText: String?
     @Published private(set) var status: FeedViewStatus = .loaded
+    @Published var focusRequest = PassthroughSubject<Focusable?, Never>()
+    @Published var currentPhotoIndex: Int = 0
 
     private let flickrService: FlickrServiceType
     private var cancellables = Set<AnyCancellable>()
@@ -56,6 +58,17 @@ class FeedViewModel: ObservableObject {
 
         loadPhotos()
         setupSubscriptions()
+    }
+
+    func select(photo: FlickrPhoto) {
+        guard let index = photos.firstIndex(of: photo)
+        else { return }
+
+        currentPhotoIndex = index
+    }
+
+    func setFocusOnReminder(_ focusable: Focusable?) {
+        focusRequest.send(focusable)
     }
 
     func loadMoreSearchPhotos(photoID: FlickrPhoto.ID) {

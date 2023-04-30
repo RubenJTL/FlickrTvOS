@@ -9,11 +9,17 @@ import SwiftUI
 
 @main
 struct FlickrTvOSApp: App {
+	@StateObject var navigationViewModel = NavigationViewModel()
     var body: some Scene {
         WindowGroup {
-            NavigationView {
+            NavigationStack(path: $navigationViewModel.path) {
                 HomeTabView()
+                    .environmentObject(navigationViewModel)
             }
         }
     }
+}
+
+class NavigationViewModel: ObservableObject {
+    @Published var path: NavigationPath = NavigationPath()
 }
