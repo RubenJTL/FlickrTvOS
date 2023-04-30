@@ -18,7 +18,7 @@ struct FeedView: View {
                 LazyVGrid(columns: columns()) {
                     ForEach(viewModel.photos) { photo in
                         NavigationLink {
-                            FullscreenPhotoView(imageURL: photo.imageURL)
+                            FullscreenPhotoView(viewModel: .init(currentPhoto: photo, photos: viewModel.photos))
                         } label: {
                             PhotoCardView(
                                 imageURL: photo.imageURL,

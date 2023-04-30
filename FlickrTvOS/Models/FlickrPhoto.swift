@@ -22,7 +22,7 @@ struct FlickrPhotos: Codable {
     }
 }
 
-struct FlickrPhoto: Identifiable, Codable {
+struct FlickrPhoto: Identifiable, Codable, Hashable {
     let id: String
     let ownerName: String
     let title: String

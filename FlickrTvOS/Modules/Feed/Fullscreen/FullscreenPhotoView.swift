@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct FullscreenPhotoView: View {
-	let imageURL: URL?
+    @ObservedObject var viewModel: FullscreenPhotoViewModel
 
     var body: some View {
-        asyncImage(url: imageURL)
+        GeometryReader { geometry in
+            TabView(selection: $viewModel.currentPhoto) {
+                ForEach(viewModel.photos, id: \.self) { photo in
+                    Button {
+                    } label: {
+                        asyncImage(url: photo.imageURL)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
+                    .buttonStyle(.card)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+        }
+        .ignoresSafeArea()
     }
 
     private func asyncImage(url: URL?) -> some View {
@@ -49,6 +62,7 @@ struct FullscreenPhotoView: View {
 
 struct FullscreenPhotoView_Previews: PreviewProvider {
     static var previews: some View {
-        FullscreenPhotoView(imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"))
+        let viewModel = FullscreenPhotoViewModel(currentPhoto: FlickrPhoto(id: "test", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), photos: [FlickrPhoto(id: "test", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), FlickrPhoto(id: "test1", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg")), FlickrPhoto(id: "test2", ownerName: "Owner", title: "new photo", imageURL: URL(string: "https://live.staticflickr.com/65535/52826093159_2da8abde33_m.jpg"))])
+        FullscreenPhotoView(viewModel: viewModel)
     }
 }
